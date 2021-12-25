@@ -1,11 +1,17 @@
 'use strict'
 
-class App {
+const express = require("express");
 
+class App {
+    _express = express();
 }
 
 
-App.prototype.initialization = function (express) {
+App.prototype.loadServer = function () {
+
+}
+
+App.prototype.loadDatabase = function () {
 
 }
 
