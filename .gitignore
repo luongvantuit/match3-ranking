@@ -4,3 +4,6 @@ node_modules/
 # Lock file
 *.lock 
 *-lock.json
+
+# OS generate
+.DS_Store
