@@ -1,0 +1,19 @@
+version: "3.5"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "9000:8080"
+    container_name: match3
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - "./db:/data/db"
+    ports:
+      - "27017:27017"
+    container_name: mongodb
