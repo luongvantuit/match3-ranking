@@ -1,13 +1,13 @@
 'use strict'
 
-const cluster = require('cluster');
-const os = require('os')
+const cluster = require('node:cluster');
+const os = require('os');
+const NativeEvent = require('./app/NativeEvent');
 
-const App = require("./providers/App")
+const App = require("./providers/App");
 
 
-
-if (cluster.default.isMaster()) {
+if (cluster.default.isMaster) {
 
     App.loadConfiguration();
 
@@ -17,10 +17,13 @@ if (cluster.default.isMaster()) {
         cluster.default.fork();
     })
 
+    NativeEvent.cluster(cluster);
+
 } else {
 
     App.loadDatabase();
 
 
     App.loadServer();
+    
 }

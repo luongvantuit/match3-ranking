@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
-const { join } = require('path')
+const { join } = require('path');
+const express = require('express');
 
 class Locals {
     config() {
@@ -12,10 +13,14 @@ class Locals {
     }
 }
 
-
-Locals.prototype.initialization = function (express) {
-    express.locals.app = this.config();
-    return express;
+/**
+ * 
+ * @param {express.Application} _express 
+ * @returns {express.Application}
+ */
+Locals.prototype.initialization = function (_express) {
+    _express.locals.app = this.config();
+    return _express;
 }
 
 
