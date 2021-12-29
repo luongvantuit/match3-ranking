@@ -1,6 +1,7 @@
 'use strict'
 const dotenv = require('dotenv');
 const { join } = require('path');
+const Database = require('./Database');
 const Express = require('./Express');
 
 class App {
@@ -16,7 +17,7 @@ App.prototype.loadServer = function () {
 }
 
 App.prototype.loadDatabase = function () {
-
+    Database.initialization();
 }
 
 

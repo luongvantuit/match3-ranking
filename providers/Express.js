@@ -31,7 +31,7 @@ class Express {
     }
 
     /**
-     * @return {void}
+     * @returns {void}
      * @private
      */
     mountRoutes() {
