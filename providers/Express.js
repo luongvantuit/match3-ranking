@@ -3,7 +3,7 @@
 const express = require("express");
 const Kernal = require("../middlewares/Kernal");
 const Locals = require('./Locals');
-
+const Routes = require('./Routes');
 
 class Express {
     _express = express();
@@ -11,6 +11,7 @@ class Express {
     constructor() {
         this.mountDotEnv();
         this.mountMiddlewares();
+        this.mountRoutes();
     }
 
     /**
@@ -27,6 +28,14 @@ class Express {
      */
     mountMiddlewares() {
         this._express = Kernal.initialization(this._express);
+    }
+
+    /**
+     * @return {void}
+     * @private
+     */
+    mountRoutes() {
+        this._express = Routes.mountAPI(this._express);
     }
 
 }
