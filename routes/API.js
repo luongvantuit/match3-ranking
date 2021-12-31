@@ -9,7 +9,6 @@ API.get('/score/:uid/:level', ScoreController.index);
 API.get('/score/:uid', ScoreController.index);
 API.get('/score/:uid', express.json(), ScoreController.perform);
 
-API.get('/ranking/:uid/:level', RankingController.show);
-API.get('/ranking/:level', ScoreController.index);
+API.get('/ranking/:level', express.json(), ScoreController.index);
 
 module.exports = API;
