@@ -40,7 +40,7 @@ RankingController.prototype.index = async function (req, res) {
             ranking = await Score.aggregate([
                 {
                     $match: {
-                        level: level,
+                        level: Number(level),
                         uid: {
                             $in: data
                         }
@@ -55,13 +55,13 @@ RankingController.prototype.index = async function (req, res) {
                     $skip: limit * page
                 },
                 {
-                    $limit: limit
+                    $limit: Number(limit)
                 }
             ]);
             const score = await Score.aggregate([
                 {
                     $match: {
-                        level: level,
+                        level: Number(level),
                         uid: {
                             $in: data
                         }
