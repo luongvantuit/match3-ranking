@@ -7,8 +7,8 @@ const API = express.Router();
 
 API.get('/score/:uid/:level', ScoreController.index);
 API.get('/score/:uid', ScoreController.index);
-API.get('/score/:uid', express.json(), ScoreController.perform);
+API.post('/score/:uid', express.json(), ScoreController.perform);
 
-API.get('/ranking/:level', express.json(), ScoreController.index);
+API.get('/ranking/:level', express.json(), RankingController.index);
 
 module.exports = API;

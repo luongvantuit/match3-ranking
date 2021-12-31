@@ -13,18 +13,23 @@ class RankingController {
  * @returns {Promise<void>}
  */
 RankingController.prototype.index = async function (req, res) {
-    const { level, limit, page } = await req.params;
+    const { level } = await req.params;
+    let { limit, page } = await req.query;
     const { data } = await req.body;
-    const _page = Number(page ?? 0);
-    const _limit = Number(limit ?? 10);
+    if (isNaN(limit))
+        limit = 10;
+    if (isNaN(page))
+        page = 0;
     let countDocuments, ranking, maxPage;
     if (data === undefined) {
         const score = await Score.find({ level: level });
         countDocuments = score.length;
-        ranking = await Score.find({ level: level }).skip(_page * _limit).sort('score');
+        ranking = await Score.find({ level: level }).limit(Number(limit)).skip(page * limit).sort({
+            'score': -1
+        });
     } else {
         if (!Array.isArray(data) || data.length === 0 || typeof data[0] !== 'string') {
-            return res.send(400)
+            return res.status(400)
                 .send({
                     error: true,
                     code: 'body-format-wrong',
@@ -43,14 +48,14 @@ RankingController.prototype.index = async function (req, res) {
                 },
                 {
                     $sort: {
-                        score: 1
+                        score: -1
                     }
                 },
                 {
-                    $skip: _limit * _page
+                    $skip: limit * page
                 },
                 {
-                    $limit: _limit
+                    $limit: limit
                 }
             ]);
             const score = await Score.aggregate([
@@ -66,8 +71,8 @@ RankingController.prototype.index = async function (req, res) {
             countDocuments = score.length;
         }
     }
-    maxPage = Math.ceil(countDocuments / _limit);
-    return res.send(200)
+    maxPage = Math.ceil(countDocuments / limit);
+    return res.status(200)
         .send({
             error: false,
             data: ranking,

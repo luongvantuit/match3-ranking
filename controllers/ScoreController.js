@@ -15,11 +15,20 @@ class ScoreController {
 ScoreController.prototype.index = async function (req, res) {
     const { uid, level } = await req.params;
     let scores;
-    if (level === undefined)
-        scores = await Score.find({ uid: uid, level: level });
-    else
-        scores = await Score.find({ uid: uid, level: level });
-    return res.send(200)
+    if (level === undefined || typeof level !== 'number')
+        scores = await Score.find({ uid: uid });
+    else {
+        if (isNaN(level))
+            return res.status(400)
+                .send({
+                    error: true,
+                    msg: `params format wrong! uid: ${uid}, level: ${level}.`,
+                    code: 'params-format-wrong'
+                })
+                .end();
+        scores = await Score.findOne({ uid: uid, level: level });
+    }
+    return res.status(200)
         .send({
             error: false,
             data: scores,
@@ -37,7 +46,7 @@ ScoreController.prototype.perform = async function (req, res) {
     const { uid } = await req.params;
     const { score, level } = await req.body;
     if (typeof uid !== 'string' || isNaN(score) || isNaN(level)) {
-        return res.send(400)
+        return res.status(400)
             .send({
                 error: true,
                 msg: `params format wrong! uid: ${uid}, score: ${score}, level: ${level}.`,
@@ -45,9 +54,9 @@ ScoreController.prototype.perform = async function (req, res) {
             })
             .end();
     } else {
-        const score = await Score.findOne({ uid: uid, level: level });
+        const _score = await Score.findOne({ uid: uid, level: level });
         let resultScore;
-        if (score === null) {
+        if (_score === null) {
             const newScore = new Score({
                 uid: uid,
                 level: level,
@@ -55,10 +64,10 @@ ScoreController.prototype.perform = async function (req, res) {
             })
             resultScore = await newScore.save();
         } else {
-            score.score = score ?? score.score;
-            resultScore = await score.save();
+            _score.score = score ?? _score.score;
+            resultScore = await _score.save();
         }
-        return res.send(200)
+        return res.status(200)
             .send({
                 error: false,
                 msg: `uid: ${uid}, score: ${score}, level: ${level}.`,
