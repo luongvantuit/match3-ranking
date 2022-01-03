@@ -15,7 +15,7 @@ class ScoreController {
 ScoreController.prototype.index = async function (req, res) {
     const { uid, level } = await req.params;
     let scores;
-    if (level === undefined || typeof level !== 'number')
+    if (level === undefined || isNaN(level))
         scores = await Score.find({ uid: uid });
     else {
         if (isNaN(level))

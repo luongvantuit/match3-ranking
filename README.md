@@ -21,19 +21,19 @@ __Score__
 - __Score update__
 
 ```shell 
-curl -X POST -H "Content-Type: application/json" -d '{"score":100,"level":1}' https://localhost:8080/api/score/{uid}
+curl -X POST -H "Content-Type: application/json" -d '{"score":100,"level":1}' http://localhost:8080/api/score/{uid}
 ```
 
 - __Get score by uid all level__
 
 ```shell 
-curl -X GET https://localhost:8080/api/score/{uid}
+curl -X GET http://localhost:8080/api/score/{uid}
 ```
 
 - __Get score by uid__
 
 ```shell 
-curl -X GET https://localhost:8080/api/score/{uid}/{level}
+curl -X GET http://localhost:8080/api/score/{uid}/{level}
 ```
 
 __Ranking__
@@ -41,13 +41,13 @@ __Ranking__
 - __Get ranking with list uid in level__
 
 ```shell 
-curl -X GET -H "Content-Type: application/json" -d '{"data":["1","2","2323"]}' https://localhost:8080/api/ranking/{level}
+curl -X GET -H "Content-Type: application/json" -d '{"data":["1","2","2323"]}' http://localhost:8080/api/ranking/{level}
 ```
 
 - __Get ranking in level__
 
 ```shell 
-curl -X GET https://localhost:8080/api/ranking/{level}
+curl -X GET http://localhost:8080/api/ranking/{level}
 ```
 
 __`@github pages`__
