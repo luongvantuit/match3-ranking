@@ -64,7 +64,8 @@ ScoreController.prototype.perform = async function (req, res) {
             })
             resultScore = await newScore.save();
         } else {
-            _score.score = score ?? _score.score;
+            if (score > _score.score)
+                _score.score = score;
             resultScore = await _score.save();
         }
         return res.status(200)
